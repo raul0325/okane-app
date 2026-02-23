@@ -722,7 +722,44 @@ h2,
         font-size: 1rem;
     }
 
+    /* スマホ: サイドバーを上部の横並びコンパクトボタンに変える */
     .stage-sidebar {
+        position: static;
+        width: 100%;
+        min-width: unset;
+        flex-direction: row;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 4px;
+        margin-top: 0;
+        order: -1;
+    }
+
+    .stage-sidebar h3 {
         display: none;
+    }
+
+    .stage-btn {
+        padding: 6px 10px;
+        border-radius: 12px;
+        min-width: 0;
+        flex: 1;
+        max-width: 90px;
+    }
+
+    .stage-icon {
+        font-size: 1.2rem;
+    }
+
+    .stage-label {
+        font-size: 0.65rem;
+    }
+
+    .stage-desc {
+        display: none;
+    }
+
+    body {
+        flex-direction: column;
     }
 }
