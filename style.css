@@ -250,10 +250,11 @@ h2,
     align-items: center;
     gap: 0;
     position: relative;
+    flex-wrap: wrap;
 }
 
 .coin-group .coin {
-    margin-left: -18px;
+    margin-left: -30px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), inset 0 -2px 4px rgba(0, 0, 0, 0.08);
 }
 
@@ -855,5 +856,27 @@ h2,
         margin-top: 6px;
         padding: 12px 0;
         font-size: 1.3rem;
+    }
+
+    /* 小さいコインをさらに小さく */
+    .coin-1 {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+    }
+
+    .coin-5 {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+    }
+
+    /* グループの重なりをさらに深く */
+    .coin-group .coin {
+        margin-left: -38px;
+    }
+
+    .coin-group .coin:first-child {
+        margin-left: 0;
     }
 }
