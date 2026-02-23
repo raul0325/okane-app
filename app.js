@@ -114,17 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // お財布の合計 >= 出題金額を保証
     // =============================================
     function buildWallet(stage, targetAmount) {
-        // お財布をクリア
         walletContainer.innerHTML = '';
         dropTray.innerHTML = '';
 
-        // ステージ定義のコインをベースに使う
-        var walletCoins = stage.walletCoins.slice(); // コピー
+        var walletCoins = stage.walletCoins.slice();
 
         // お財布の合計が足りるか確認
         var walletTotal = walletCoins.reduce(function (s, c) { return s + c; }, 0);
         if (walletTotal < targetAmount) {
-            // 足りない場合は最小コインを追加
             var smallest = Math.min.apply(null, stage.coinTypes);
             while (walletTotal < targetAmount) {
                 walletCoins.push(smallest);
@@ -132,39 +129,74 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // DOM要素を生成
-        walletCoins.forEach(function (value) {
-            var div = document.createElement('div');
-            div.classList.add('coin');
-            div.setAttribute('draggable', 'true');
-            div.dataset.value = value;
+        // 金額ごとにグループ化 (降順: 大きいコインが先)
+        var counts = {};
+        walletCoins.forEach(function (v) { counts[v] = (counts[v] || 0) + 1; });
+        var denominations = Object.keys(counts).map(Number).sort(function (a, b) { return b - a; });
 
-            if (value === 1) {
-                div.classList.add('coin-1');
-                div.textContent = '1';
-            } else if (value === 5) {
-                div.classList.add('coin-5');
-                var span = document.createElement('span');
-                span.textContent = '5';
-                div.appendChild(span);
-            } else if (value === 10) {
-                div.classList.add('coin-10');
-                div.textContent = '10';
-            } else if (value === 50) {
-                div.classList.add('coin-50');
-                var span = document.createElement('span');
-                span.textContent = '50';
-                div.appendChild(span);
-            } else if (value === 100) {
-                div.classList.add('coin-100');
-                div.textContent = '100';
-            } else if (value === 500) {
-                div.classList.add('coin-500');
-                div.textContent = '500';
+        denominations.forEach(function (value) {
+            var count = counts[value];
+            // 3枚以下なら個別表示、4枚以上ならグループ（束）表示
+            if (count <= 3) {
+                for (var i = 0; i < count; i++) {
+                    walletContainer.appendChild(createCoinElement(value));
+                }
+            } else {
+                // グループ表示: 最大3枚を重ねて見せ、バッジで枚数表示
+                var group = document.createElement('div');
+                group.classList.add('coin-group');
+                var showCount = Math.min(3, count);
+                for (var i = 0; i < showCount; i++) {
+                    group.appendChild(createCoinElement(value));
+                }
+                // 残りはグループの中に隠しておく（ドラッグで取り出せる）
+                for (var i = showCount; i < count; i++) {
+                    var hidden = createCoinElement(value);
+                    hidden.style.display = 'none';
+                    group.appendChild(hidden);
+                }
+                // バッジ
+                var badge = document.createElement('span');
+                badge.classList.add('coin-group-badge');
+                badge.textContent = '×' + count;
+                group.appendChild(badge);
+                walletContainer.appendChild(group);
             }
-
-            walletContainer.appendChild(div);
         });
+    }
+
+    // コイン要素を1つ作る
+    function createCoinElement(value) {
+        var div = document.createElement('div');
+        div.classList.add('coin');
+        div.setAttribute('draggable', 'true');
+        div.dataset.value = value;
+
+        if (value === 1) {
+            div.classList.add('coin-1');
+            div.textContent = '1';
+        } else if (value === 5) {
+            div.classList.add('coin-5');
+            var span = document.createElement('span');
+            span.textContent = '5';
+            div.appendChild(span);
+        } else if (value === 10) {
+            div.classList.add('coin-10');
+            div.textContent = '10';
+        } else if (value === 50) {
+            div.classList.add('coin-50');
+            var span = document.createElement('span');
+            span.textContent = '50';
+            div.appendChild(span);
+        } else if (value === 100) {
+            div.classList.add('coin-100');
+            div.textContent = '100';
+        } else if (value === 500) {
+            div.classList.add('coin-500');
+            div.textContent = '500';
+        }
+
+        return div;
     }
 
     // =============================================

@@ -240,8 +240,45 @@ h2,
     justify-content: center;
     align-items: center;
     align-content: flex-start;
-    min-height: 180px;
+    min-height: 120px;
     padding: 12px;
+}
+
+/* コインの束（グループ表示） */
+.coin-group {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+}
+
+.coin-group .coin {
+    margin-left: -18px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), inset 0 -2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.coin-group .coin:first-child {
+    margin-left: 0;
+}
+
+.coin-group-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: linear-gradient(135deg, #e53935, #c62828);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    border: 2px solid white;
+    font-family: inherit;
 }
 
 .tray {
@@ -761,5 +798,30 @@ h2,
 
     body {
         flex-direction: column;
+    }
+
+    /* スマホ: おさいふを下（手前）にする */
+    .main-content {
+        flex-direction: column-reverse;
+    }
+
+    .wallet-area,
+    .tray-area {
+        min-width: unset;
+    }
+
+    .coin-container,
+    .tray {
+        min-height: 80px;
+        gap: 8px;
+        padding: 8px;
+    }
+
+    /* 問題文を常に見えるように固定 */
+    .question-area {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        margin-bottom: 10px;
     }
 }
