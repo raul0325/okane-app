@@ -142,18 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     walletContainer.appendChild(createCoinElement(value));
                 }
             } else {
-                // グループ表示: 最大3枚を重ねて見せ、バッジで枚数表示
+                // グループ表示: 全コインを重ねて見せ、バッジで枚数表示
                 var group = document.createElement('div');
                 group.classList.add('coin-group');
-                var showCount = Math.min(3, count);
-                for (var i = 0; i < showCount; i++) {
+                for (var i = 0; i < count; i++) {
                     group.appendChild(createCoinElement(value));
-                }
-                // 残りはグループの中に隠しておく（ドラッグで取り出せる）
-                for (var i = showCount; i < count; i++) {
-                    var hidden = createCoinElement(value);
-                    hidden.style.display = 'none';
-                    group.appendChild(hidden);
                 }
                 // バッジ
                 var badge = document.createElement('span');
