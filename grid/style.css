@@ -1,0 +1,667 @@
+/* ============================================
+   おかねの ます計算 — スタイルシート
+   シンプル・UD対応、タブレット最適化
+   ============================================ */
+
+:root {
+    --bg-color: #eef5fa;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --border-color: #dee2e6;
+    --primary: #4dabf7;
+    --primary-dark: #339af0;
+    --correct-color: #51cf66;
+    --incorrect-color: #ff6b6b;
+    --selected-bg: #fff9db;
+    --selected-border: #fcc419;
+    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --radius: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'BIZ UDPGothic', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.app-container {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 1000px;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 12px 0;
+    position: relative;
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+/* ========== レベル選択 ========== */
+.level-select {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+
+.level-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border: 3px solid var(--border-color);
+    border-radius: 50px;
+    background: var(--card-bg);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-color);
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.level-btn:hover {
+    border-color: var(--primary);
+}
+
+.level-btn.active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #fff;
+}
+
+.level-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+/* ========== タイマー ========== */
+.timer-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+}
+
+.timer-display {
+    font-size: 2.2rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-color);
+    min-width: 110px;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+.start-btn {
+    padding: 10px 26px;
+    font-size: 1.15rem;
+    font-family: inherit;
+    font-weight: 700;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.start-btn:hover {
+    background: var(--primary-dark);
+}
+
+.start-btn:active {
+    transform: scale(0.96);
+}
+
+.start-btn:disabled {
+    background: #adb5bd;
+    cursor: default;
+    transform: none;
+}
+
+/* ベストタイム表示 */
+.best-time-bar {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #868e96;
+    margin-bottom: 6px;
+    min-height: 1.3em;
+    flex-shrink: 0;
+}
+
+.best-time-bar .best-label {
+    color: #e8590c;
+    font-weight: 700;
+}
+
+.best-time-result {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #e8590c;
+    min-height: 1.5em;
+}
+
+.best-time-result .new-record {
+    color: #e03131;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+/* ========== メインエリア（グリッド＋テンキー横並び） ========== */
+.main-area {
+    flex: 1;
+    display: flex;
+    gap: 12px;
+    min-height: 0;
+    padding-bottom: 12px;
+}
+
+/* ========== ます計算グリッド ========== */
+.grid-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    min-height: 0;
+    min-width: 0;
+    background: #e8f4f8;
+    border-radius: var(--radius);
+}
+
+.calc-grid {
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.calc-grid th,
+.calc-grid td {
+    text-align: center;
+    vertical-align: middle;
+    border: 2px solid var(--border-color);
+    font-weight: 700;
+    position: relative;
+}
+
+/* セルサイズはJSで動的に設定（レベル・画面に応じて） */
+
+/* 左上角の「＋」セル */
+.corner-cell {
+    background: #f1f3f5;
+    font-size: 1.6rem;
+    color: #868e96;
+}
+
+/* ヘッダーセル */
+.header-cell {
+    background: #f8f9fa;
+    padding: 4px;
+}
+
+/* お金プレースホルダー */
+.coin-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+}
+
+.coin-circle {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 金種ごとの色 */
+.coin-1 {
+    background: linear-gradient(145deg, #d4d4d4, #b0b0b0);
+    color: #555;
+    text-shadow: none;
+}
+
+.coin-5 {
+    background: linear-gradient(145deg, #e6c84f, #ccb035);
+    color: #6d5e00;
+    text-shadow: none;
+}
+
+.coin-10 {
+    background: linear-gradient(145deg, #e8a87c, #d4a373);
+}
+
+.coin-50 {
+    background: linear-gradient(145deg, #ced4da, #adb5bd);
+    color: #495057;
+    text-shadow: none;
+}
+
+.coin-100 {
+    background: linear-gradient(145deg, #c4aee0, #b197d5);
+}
+
+.coin-500 {
+    background: linear-gradient(145deg, #f0d86e, #d4b93c);
+    color: #5c4e00;
+    text-shadow: none;
+}
+
+.coin-label {
+    font-size: 0.65rem;
+    color: #868e96;
+    line-height: 1;
+}
+
+/* 入力セル */
+.input-cell {
+    cursor: pointer;
+    background: #fff;
+    transition: background 0.1s;
+    font-size: 1.3rem;
+}
+
+.input-cell:hover {
+    background: #f8f9fa;
+}
+
+.input-cell.selected {
+    background: var(--selected-bg);
+    border-color: var(--selected-border);
+    box-shadow: inset 0 0 0 2px var(--selected-border);
+}
+
+.input-cell.correct {
+    background: #d3f9d8;
+    color: #2b8a3e;
+    cursor: default;
+}
+
+.input-cell.incorrect {
+    animation: cellShake 0.4s ease;
+}
+
+/* 〇マーク */
+.correct-mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid var(--correct-color);
+    border-radius: 50%;
+    opacity: 0;
+    animation: markPop 0.4s ease forwards;
+    pointer-events: none;
+}
+
+/* セル内テキスト */
+.cell-input-text {
+    position: relative;
+    z-index: 1;
+}
+
+/* カーソル点滅 */
+.cell-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background: var(--text-color);
+    vertical-align: middle;
+    margin-left: 1px;
+    animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes cellShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-5px);
+    }
+
+    40% {
+        transform: translateX(5px);
+    }
+
+    60% {
+        transform: translateX(-3px);
+    }
+
+    80% {
+        transform: translateX(3px);
+    }
+}
+
+@keyframes markPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0.3);
+        opacity: 0;
+    }
+
+    60% {
+        transform: translate(-50%, -50%) scale(1.12);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* ========== テンキー（右サイド） ========== */
+.tenkey {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 8px;
+    background: #fdf6ec;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    flex-shrink: 0;
+    width: 230px;
+    align-content: center;
+}
+
+.tenkey-btn {
+    height: 56px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    background: #f8f9fa;
+    font-family: inherit;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background 0.08s, transform 0.08s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tenkey-btn:hover {
+    background: #e9ecef;
+}
+
+.tenkey-btn:active {
+    background: #dee2e6;
+    transform: scale(0.96);
+}
+
+.tenkey-delete {
+    background: #fff5f5;
+    color: var(--incorrect-color);
+    border-color: #ffc9c9;
+}
+
+.tenkey-delete:hover {
+    background: #ffe3e3;
+}
+
+.tenkey-delete:active {
+    background: #ffc9c9;
+}
+
+.tenkey-enter {
+    background: #ebfbee;
+    color: #2b8a3e;
+    border-color: #b2f2bb;
+    font-size: 1rem;
+}
+
+.tenkey-enter:hover {
+    background: #d3f9d8;
+}
+
+.tenkey-enter:active {
+    background: #b2f2bb;
+}
+
+/* ========== 正解オーバーレイ ========== */
+.success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.97);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.success-overlay.hidden {
+    display: none;
+}
+
+.success-content {
+    text-align: center;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+}
+
+.hanamaru {
+    width: 180px;
+    height: 180px;
+    animation: bounceRotate 2s infinite alternate ease-in-out;
+}
+
+.hanamaru img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1));
+}
+
+.success-title {
+    font-size: 3.4rem;
+    color: #e03131;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.clear-time {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.retry-btn {
+    margin-top: 6px;
+    padding: 14px 40px;
+    font-size: 1.5rem;
+    font-family: inherit;
+    font-weight: 700;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.retry-btn:hover {
+    background: var(--primary-dark);
+}
+
+.retry-btn:active {
+    transform: scale(0.96);
+}
+
+/* 紙吹雪 */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.confetti-piece {
+    position: absolute;
+    top: -20px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: confettiFall linear forwards;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bounceRotate {
+    0% {
+        transform: scale(1) rotate(-3deg) translateY(0);
+    }
+
+    50% {
+        transform: scale(1.06) rotate(0deg) translateY(-8px);
+    }
+
+    100% {
+        transform: scale(1) rotate(3deg) translateY(0);
+    }
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* ========== レスポンシブ ========== */
+/* 狭い画面: テンキーを下に戻す */
+@media (max-width: 600px) {
+    .main-area {
+        flex-direction: column;
+    }
+
+    .tenkey {
+        width: 100%;
+        border-top: 2px solid var(--border-color);
+        border: none;
+        border-top: 2px solid var(--border-color);
+        border-radius: 0;
+    }
+
+    .app-container {
+        padding: 8px 6px 0;
+    }
+
+    .level-btn {
+        padding: 6px 8px;
+        font-size: 0.8rem;
+        gap: 2px;
+    }
+
+    .level-icon {
+        font-size: 0.95rem;
+    }
+
+    .timer-display {
+        font-size: 1.8rem;
+        min-width: 90px;
+    }
+
+    .start-btn {
+        padding: 8px 18px;
+        font-size: 1rem;
+    }
+
+    .tenkey-btn {
+        height: 50px;
+        font-size: 1.3rem;
+    }
+
+    .tenkey-enter {
+        font-size: 0.85rem;
+    }
+
+    .success-title {
+        font-size: 2.6rem;
+    }
+
+    .hanamaru {
+        width: 140px;
+        height: 140px;
+    }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>おかねの ます計算</title>
+    <meta name="description" content="おかねの ます計算れんしゅうアプリ">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- レベル選択 -->
+        <div class="level-select" id="level-select">
+            <button class="level-btn active" data-level="0">
+                <span class="level-icon">🌱</span>
+                <span class="level-label">レベル1</span>
+            </button>
+            <button class="level-btn" data-level="1">
+                <span class="level-icon">🌷</span>
+                <span class="level-label">レベル2</span>
+            </button>
+            <button class="level-btn" data-level="2">
+                <span class="level-icon">🌼</span>
+                <span class="level-label">レベル3</span>
+            </button>
+            <button class="level-btn" data-level="3">
+                <span class="level-icon">🌟</span>
+                <span class="level-label">レベル4</span>
+            </button>
+            <button class="level-btn" data-level="4">
+                <span class="level-icon">🏆</span>
+                <span class="level-label">レベル5</span>
+            </button>
+        </div>
+
+        <!-- タイマーエリア -->
+        <div class="timer-area">
+            <div class="timer-display" id="timer-display">00:00</div>
+            <button class="start-btn" id="start-btn">スタート</button>
+        </div>
+        <div class="best-time-bar" id="best-time-bar"></div>
+
+        <!-- メインエリア（グリッド＋テンキー横並び） -->
+        <div class="main-area">
+            <!-- ます計算グリッド -->
+            <div class="grid-wrapper" id="grid-wrapper">
+                <table class="calc-grid" id="calc-grid">
+                    <!-- JSで動的に生成 -->
+                </table>
+            </div>
+
+            <!-- テンキー -->
+            <div class="tenkey" id="tenkey">
+                <button class="tenkey-btn" data-key="1">1</button>
+                <button class="tenkey-btn" data-key="2">2</button>
+                <button class="tenkey-btn" data-key="3">3</button>
+                <button class="tenkey-btn" data-key="4">4</button>
+                <button class="tenkey-btn" data-key="5">5</button>
+                <button class="tenkey-btn" data-key="6">6</button>
+                <button class="tenkey-btn" data-key="7">7</button>
+                <button class="tenkey-btn" data-key="8">8</button>
+                <button class="tenkey-btn" data-key="9">9</button>
+                <button class="tenkey-btn tenkey-delete" data-key="delete">←</button>
+                <button class="tenkey-btn" data-key="0">0</button>
+                <button class="tenkey-btn tenkey-enter" data-key="enter">けってい</button>
+            </div>
+        </div>
+
+        <!-- 正解オーバーレイ -->
+        <div id="success-overlay" class="success-overlay hidden">
+            <div class="success-content">
+                <div class="hanamaru"><img src="hanamaru.png" alt="はなまる"></div>
+                <h2 class="success-title">せいかい！</h2>
+                <div class="clear-time" id="clear-time"></div>
+                <div class="best-time-result" id="best-time-result"></div>
+                <button id="retry-button" class="retry-btn">もういちど</button>
+            </div>
+            <div class="confetti-container" id="confetti-container"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

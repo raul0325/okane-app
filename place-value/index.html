@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>おかねの けいさん</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ========== トップ画面（レベル選択） ========== -->
+    <div id="screen-top" class="screen active">
+        <h1 class="app-title">おかねの けいさん</h1>
+        <p class="app-subtitle">レベルを えらんでね</p>
+        <div class="level-buttons">
+            <button class="level-btn" data-level="1" id="btn-level-1">
+                <span class="level-num">レベル 1</span>
+                <span class="level-desc">10のくらいまで（10円・1円）</span>
+            </button>
+            <button class="level-btn" data-level="2" id="btn-level-2">
+                <span class="level-num">レベル 2</span>
+                <span class="level-desc">5円・50円の れんしゅう</span>
+            </button>
+            <button class="level-btn" data-level="3" id="btn-level-3">
+                <span class="level-num">レベル 3</span>
+                <span class="level-desc">100のくらいまで（100円・10円・1円）</span>
+            </button>
+            <button class="level-btn" data-level="4" id="btn-level-4">
+                <span class="level-num">レベル 4</span>
+                <span class="level-desc">ぜんぶ ミックス</span>
+            </button>
+        </div>
+        <button class="start-btn" id="btn-start" disabled>スタート</button>
+    </div>
+
+    <!-- ========== ゲーム画面 ========== -->
+    <div id="screen-game" class="screen">
+        <div class="game-header">
+            <button class="header-back-btn" id="btn-game-back">◀ もどる</button>
+            <span class="question-counter" id="question-counter">1 / 10 もんめ</span>
+            <span class="timer" id="timer">0.0 びょう</span>
+        </div>
+
+        <div class="game-body">
+            <!-- 左側：位取り表 + 合計表示 -->
+            <div class="game-left">
+                <div class="place-value-wrapper">
+                    <table class="place-value-table" id="place-value-table">
+                    </table>
+                </div>
+
+                <!-- 合計表示 + ⭕ 表示エリア（横並び） -->
+                <div class="answer-and-feedback">
+                    <div class="answer-row">
+                        <span class="answer-eq">=</span>
+                        <span class="answer-text" id="answer-display">　</span>
+                        <span class="answer-unit">円</span>
+                    </div>
+                    <div class="feedback-area" id="feedback-area">
+                        <div class="feedback-content" id="feedback-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側：テンキー -->
+            <div class="game-right">
+                <div class="numpad" id="numpad">
+                    <button class="num-btn" data-num="1">1</button>
+                    <button class="num-btn" data-num="2">2</button>
+                    <button class="num-btn" data-num="3">3</button>
+                    <button class="num-btn" data-num="4">4</button>
+                    <button class="num-btn" data-num="5">5</button>
+                    <button class="num-btn" data-num="6">6</button>
+                    <button class="num-btn" data-num="7">7</button>
+                    <button class="num-btn" data-num="8">8</button>
+                    <button class="num-btn" data-num="9">9</button>
+                    <button class="num-btn func-btn delete-btn" id="btn-delete">けす</button>
+                    <button class="num-btn" data-num="0">0</button>
+                    <button class="num-btn func-btn submit-btn" id="btn-submit">こたえ<br>あわせ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== 結果画面 ========== -->
+    <div id="screen-result" class="screen">
+        <div class="result-content">
+            <img src="img/hanamaru.png" alt="はなまる" class="hanamaru-img" id="hanamaru-img">
+            <h2 class="result-title" id="result-title">すごい！<br>ぜんもん せいかい！</h2>
+            <div class="result-time" id="result-time">
+                <span class="time-label">クリアタイム</span>
+                <span class="time-value" id="clear-time">0.0 びょう</span>
+            </div>
+            <div class="result-buttons">
+                <button class="result-btn" id="btn-retry">もういちど</button>
+                <button class="result-btn" id="btn-back">レベルを えらぶ</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

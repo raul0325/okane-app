@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おかいものごっこ</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for BIZ UDPGothic (Universal Design) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Stage Selection Sidebar -->
+    <nav class="stage-sidebar" id="stage-sidebar">
+        <h3>ステージ</h3>
+        <button class="stage-btn active" data-stage="0">
+            <span class="stage-icon">🌱</span>
+            <span class="stage-label">ステージ1</span>
+            <span class="stage-desc">10〜50円</span>
+        </button>
+        <button class="stage-btn" data-stage="1">
+            <span class="stage-icon">🌼</span>
+            <span class="stage-label">ステージ2</span>
+            <span class="stage-desc">50〜100円</span>
+        </button>
+        <button class="stage-btn" data-stage="2">
+            <span class="stage-icon">🌟</span>
+            <span class="stage-label">ステージ3</span>
+            <span class="stage-desc">100〜200円</span>
+        </button>
+        <button class="stage-btn" data-stage="3">
+            <span class="stage-icon">🏆</span>
+            <span class="stage-label">ステージ4</span>
+            <span class="stage-desc">200〜500円</span>
+        </button>
+    </nav>
+
+    <div class="app-container">
+        <!-- Level Indicator -->
+        <div class="level-indicator" id="level-indicator">レベル 1</div>
+
+        <!-- Question Area -->
+        <header class="question-area">
+            <h1 id="question-text">50えん はらってください</h1>
+        </header>
+
+        <div class="main-content">
+            <!-- Coin Source Area -->
+            <section class="wallet-area">
+                <h2>おさいふ</h2>
+                <div class="coin-container">
+                    <!-- コインはJSで動的に生成されます -->
+                </div>
+            </section>
+
+            <!-- Tray Area -->
+            <section class="tray-area">
+                <h2>おしはらいトレイ</h2>
+                <div id="drop-tray" class="tray">
+                    <!-- Dropped coins will appear here -->
+                </div>
+                <div class="bottom-bar">
+                    <div class="total-display">
+                        <span class="total-label">ごうけい</span>
+                        <span class="total-amount"><span id="current-total">0</span>円</span>
+                    </div>
+                    <button id="pay-button" class="pay-btn">はらう 💴</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Result / Success Animation -->
+        <div id="success-overlay" class="hidden">
+            <div class="success-content">
+                <div class="hanamaru"><img src="hanamaru.png" alt="はなまる"></div>
+                <h2>せいかい！</h2>
+                <button id="next-button">つぎの もんだいへ</button>
+            </div>
+            <!-- Confetti decorations -->
+            <div class="confetti" style="left:10%; top:20%; background:#f4a7bb; animation-delay:0s;"></div>
+            <div class="confetti" style="left:25%; top:10%; background:#ffe9a0; animation-delay:0.2s;"></div>
+            <div class="confetti" style="left:40%; top:15%; background:#c7b8ea; animation-delay:0.4s;"></div>
+            <div class="confetti" style="left:60%; top:12%; background:#a8d8ea; animation-delay:0.3s;"></div>
+            <div class="confetti" style="left:75%; top:18%; background:#ffcab1; animation-delay:0.1s;"></div>
+            <div class="confetti" style="left:85%; top:8%;  background:#f4a7bb; animation-delay:0.5s;"></div>
+            <div class="confetti" style="left:50%; top:5%;  background:#7ecba1; animation-delay:0.6s;"></div>
+        </div>
+
+        <button id="reset-button" class="reset-btn">やりなおす</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

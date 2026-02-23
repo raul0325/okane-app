@@ -1,0 +1,681 @@
+/* ========================================
+   おかねの けいさん — スタイルシート
+   位取り表 + 右サイドテンキー バージョン
+   ======================================== */
+
+/* --- リセット & ベース --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'BIZ UDPGothic', 'UD デジタル 教科書体 NK-R', 'Yu Gothic', sans-serif;
+    background: #f8f8f5;
+    color: #333;
+    min-height: 100dvh;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* --- 画面切り替え --- */
+.screen {
+    display: none;
+    width: 100%;
+    height: 100dvh;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ========================================
+   トップ画面
+   ======================================== */
+#screen-top {
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    gap: 16px;
+}
+
+.app-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #4a7c59;
+    text-align: center;
+}
+
+.app-subtitle {
+    font-size: 1.15rem;
+    color: #777;
+    text-align: center;
+}
+
+.level-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.level-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 14px;
+    border: 3px solid #d0d0d0;
+    border-radius: 16px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.1s;
+    font-family: inherit;
+    overflow: visible;
+}
+
+.level-btn:active {
+    transform: scale(0.97);
+}
+
+.level-btn.selected {
+    border-color: #4a9e68;
+    background: #e8f5ec;
+}
+
+.level-num {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #4a7c59;
+    line-height: 1.8;
+}
+
+.level-desc {
+    font-size: 0.9rem;
+    color: #888;
+    text-align: center;
+    line-height: 1.8;
+    padding: 2px 0;
+}
+
+.start-btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px;
+    font-family: inherit;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    background: #4a9e68;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.start-btn:active {
+    background: #3d8457;
+    transform: scale(0.97);
+}
+
+.start-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   ゲーム画面
+   ======================================== */
+#screen-game {
+    position: relative;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    background: #4a7c59;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    gap: 8px;
+}
+
+.header-back-btn {
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    padding: 4px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.header-back-btn:active {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.timer {
+    font-variant-numeric: tabular-nums;
+    min-width: 100px;
+    text-align: right;
+}
+
+.question-counter {
+    min-width: 120px;
+    text-align: center;
+}
+
+/* --- ゲーム本体（左右レイアウト） --- */
+.game-body {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.game-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.game-right {
+    flex-shrink: 0;
+    display: flex;
+    align-items: stretch;
+    background: #e8e8e4;
+    border-left: 2px solid #ccc;
+}
+
+/* --- 位取り表 --- */
+.place-value-wrapper {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    padding: 10px 10px 0;
+    overflow-y: auto;
+}
+
+.place-value-table {
+    border-collapse: collapse;
+    width: auto;
+    max-width: 100%;
+}
+
+.place-value-table th,
+.place-value-table td {
+    border: 2px solid #999;
+    text-align: center;
+    vertical-align: top;
+}
+
+/* ヘッダー行 */
+.pv-header {
+    background: #fff;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #333;
+    padding: 18px 14px;
+    min-width: 90px;
+    vertical-align: middle;
+}
+
+/* 硬貨セル — 高さを5枚分に固定 */
+.pv-coin-cell {
+    background: #fff;
+    vertical-align: top;
+    padding: 14px 10px 8px;
+    min-height: 250px;
+    height: 250px;
+}
+
+/* セル内：硬貨を横に並べる（左=50/5円、右=10/1円 or 5-group） */
+.coin-cell-inner {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* 各縦列 */
+.coin-col {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: center;
+}
+
+.coin-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+}
+
+.coin-spacer {
+    width: 40px;
+    height: 40px;
+    display: block;
+    visibility: hidden;
+}
+
+/* 入力セル */
+.pv-input-cell {
+    background: #fff;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #333;
+    padding: 6px 4px;
+    height: 52px;
+    cursor: pointer;
+    transition: background 0.15s;
+    vertical-align: middle;
+}
+
+.pv-input-cell.active {
+    background: #e8f4ff;
+    box-shadow: inset 0 0 0 3px #4a90d9;
+}
+
+.pv-input-cell.locked {
+    background: #f0f0ec;
+    color: #bbb;
+    cursor: default;
+}
+
+.input-value {
+    display: block;
+    min-height: 1.6em;
+    line-height: 1.6em;
+}
+
+/* --- フィードバック（解答欄の右隣、常に幅を確保） --- */
+.answer-and-feedback {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+    flex-shrink: 0;
+    position: relative;
+    /* 表の幅に揃えつつ、フィードバックが右に飛び出すようにするハック */
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.answer-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    background: #f0f0ec;
+    border-top: 2px solid #ccc;
+    border-radius: 8px;
+    /* 角丸追加で少し柔らかい印象に */
+}
+
+.feedback-area {
+    display: flex;
+    justify-content: flex-start;
+    /* 左寄り（解答欄のすぐ横） */
+    align-items: center;
+    width: 60px;
+    /* ⭕がはみ出ない程度の幅 */
+    position: absolute;
+    left: 100%;
+    /* 解答欄の右端からスタート */
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 8px;
+    /* 解答欄との隙間 */
+}
+
+.feedback-content {
+    text-align: center;
+}
+
+.feedback-content:not(:empty) {
+    animation: feedbackPop 0.4s ease-out;
+}
+
+.feedback-correct .circle {
+    font-size: 5rem;
+    display: block;
+    color: #e44;
+}
+
+.feedback-wrong {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #c77;
+    line-height: 1.5;
+}
+
+@keyframes feedbackPop {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* --- 合計表示（個別文字スタイル） --- */
+.answer-eq {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #777;
+}
+
+.answer-text {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #333;
+    min-width: 80px;
+    text-align: right;
+    letter-spacing: 3px;
+    background: #fff;
+    border: 2px solid #999;
+    border-radius: 8px;
+    padding: 4px 12px;
+    line-height: 1.3;
+}
+
+.answer-unit {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #555;
+}
+
+/* --- テンキー（右サイド） --- */
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 6px;
+    align-content: center;
+    width: 180px;
+}
+
+.num-btn {
+    font-family: inherit;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+    background: #fff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: background 0.1s, transform 0.08s;
+    -webkit-tap-highlight-color: transparent;
+    line-height: 1.2;
+}
+
+.num-btn:active {
+    background: #e0e0e0;
+    transform: scale(0.95);
+}
+
+.func-btn {
+    font-size: 0.85rem;
+}
+
+.delete-btn {
+    background: #f5e6e6;
+    border-color: #e0b0b0;
+    color: #c44;
+}
+
+.delete-btn:active {
+    background: #edd;
+}
+
+.submit-btn {
+    background: #e6f0e8;
+    border-color: #8dc49a;
+    color: #3a7a4f;
+}
+
+.submit-btn:active {
+    background: #d0e8d4;
+}
+
+/* ========================================
+   結果画面
+   ======================================== */
+#screen-result {
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    background: #fffde7;
+}
+
+.result-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+}
+
+.hanamaru-img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    animation: hanamaruBounce 1s ease-out;
+}
+
+@keyframes hanamaruBounce {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2) rotate(10deg);
+        opacity: 1;
+    }
+
+    70% {
+        transform: scale(0.9) rotate(-5deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.result-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #e55;
+    line-height: 1.4;
+    animation: titlePulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes titlePulse {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+.result-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 4px 0;
+}
+
+.time-label {
+    font-size: 1rem;
+    color: #888;
+}
+
+.time-value {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #4a7c59;
+}
+
+.result-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.result-btn {
+    font-family: inherit;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.result-btn:active {
+    transform: scale(0.95);
+}
+
+#btn-retry {
+    background: #4a9e68;
+    color: #fff;
+}
+
+#btn-back {
+    background: #ddd;
+    color: #555;
+}
+
+/* ========================================
+   レスポンシブ
+   ======================================== */
+@media (min-width: 700px) {
+    .pv-header {
+        min-width: 110px;
+        font-size: 1.6rem;
+    }
+
+    .coin-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .coin-spacer {
+        width: 50px;
+        height: 50px;
+    }
+
+    .pv-coin-cell {
+        min-height: 274px;
+        height: 274px;
+    }
+
+    .numpad {
+        width: 200px;
+    }
+
+    .num-btn {
+        font-size: 1.6rem;
+        padding: 14px 0;
+    }
+
+    .func-btn {
+        font-size: 1rem;
+    }
+
+    .pv-input-cell {
+        font-size: 2rem;
+        height: 56px;
+    }
+
+    .feedback-correct .circle {
+        font-size: 6rem;
+    }
+
+    .hanamaru-img {
+        width: 240px;
+        height: 240px;
+    }
+}
+
+/* 小さい画面 / 縦画面スマホ */
+@media (max-width: 480px) {
+    .game-body {
+        flex-direction: column;
+    }
+
+    .game-right {
+        border-left: none;
+        border-top: 2px solid #ccc;
+    }
+
+    .numpad {
+        width: 100%;
+    }
+
+    .coin-img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .coin-spacer {
+        width: 32px;
+        height: 32px;
+    }
+
+    .pv-header {
+        font-size: 1.1rem;
+        min-width: 60px;
+        padding: 4px 3px;
+    }
+
+    .pv-coin-cell {
+        min-height: 184px;
+        height: 184px;
+    }
+
+    .pv-input-cell {
+        font-size: 1.4rem;
+        height: 40px;
+    }
+
+    .feedback-correct .circle {
+        font-size: 4rem;
+    }
+}

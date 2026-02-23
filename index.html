@@ -4,95 +4,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>おかいものごっこ</title>
-    <link rel="stylesheet" href="style.css">
+    <title>おかねの がくしゅう</title>
     <!-- Google Fonts for BIZ UDPGothic (Universal Design) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'BIZ UDPGothic', 'UD デジタル 教科書体 NK-R', 'Yu Gothic', sans-serif;
+            background: #f0f4f8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #2c5282;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: #4a5568;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e1;
+        }
+
+        .menu-btn:active {
+            transform: translateY(0);
+        }
+
+        .icon-container {
+            font-size: 3rem;
+            margin-right: 24px;
+            background: #e2e8f0;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .btn-content {
+            flex: 1;
+        }
+
+        .btn-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+
+        .btn-desc {
+            font-size: 0.95rem;
+            color: #718096;
+            line-height: 1.4;
+        }
+
+        .color-green .icon-container {
+            background: #c6f6d5;
+            color: #2f855a;
+        }
+
+        .color-blue .icon-container {
+            background: #bee3f8;
+            color: #2b6cb0;
+        }
+
+        .color-orange .icon-container {
+            background: #feebc8;
+            color: #c05621;
+        }
+
+        @media (max-width: 480px) {
+            .menu-btn {
+                padding: 16px;
+            }
+
+            .icon-container {
+                width: 60px;
+                height: 60px;
+                font-size: 2.2rem;
+                margin-right: 16px;
+            }
+
+            .btn-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Stage Selection Sidebar -->
-    <nav class="stage-sidebar" id="stage-sidebar">
-        <h3>ステージ</h3>
-        <button class="stage-btn active" data-stage="0">
-            <span class="stage-icon">🌱</span>
-            <span class="stage-label">ステージ1</span>
-            <span class="stage-desc">10〜50円</span>
-        </button>
-        <button class="stage-btn" data-stage="1">
-            <span class="stage-icon">🌼</span>
-            <span class="stage-label">ステージ2</span>
-            <span class="stage-desc">50〜100円</span>
-        </button>
-        <button class="stage-btn" data-stage="2">
-            <span class="stage-icon">🌟</span>
-            <span class="stage-label">ステージ3</span>
-            <span class="stage-desc">100〜200円</span>
-        </button>
-        <button class="stage-btn" data-stage="3">
-            <span class="stage-icon">🏆</span>
-            <span class="stage-label">ステージ4</span>
-            <span class="stage-desc">200〜500円</span>
-        </button>
-    </nav>
 
-    <div class="app-container">
-        <!-- Level Indicator -->
-        <div class="level-indicator" id="level-indicator">レベル 1</div>
+    <header>
+        <h1>おかねの がくしゅう</h1>
+        <p class="subtitle">あそびたい ゲームを えらんでね！</p>
+    </header>
 
-        <!-- Question Area -->
-        <header class="question-area">
-            <h1 id="question-text">50えん はらってください</h1>
-        </header>
+    <div class="menu-container">
 
-        <div class="main-content">
-            <!-- Coin Source Area -->
-            <section class="wallet-area">
-                <h2>おさいふ</h2>
-                <div class="coin-container">
-                    <!-- コインはJSで動的に生成されます -->
-                </div>
-            </section>
-
-            <!-- Tray Area -->
-            <section class="tray-area">
-                <h2>おしはらいトレイ</h2>
-                <div id="drop-tray" class="tray">
-                    <!-- Dropped coins will appear here -->
-                </div>
-                <div class="bottom-bar">
-                    <div class="total-display">
-                        <span class="total-label">ごうけい</span>
-                        <span class="total-amount"><span id="current-total">0</span>円</span>
-                    </div>
-                    <button id="pay-button" class="pay-btn">はらう 💴</button>
-                </div>
-            </section>
-        </div>
-
-        <!-- Result / Success Animation -->
-        <div id="success-overlay" class="hidden">
-            <div class="success-content">
-                <div class="hanamaru"><img src="hanamaru.png" alt="はなまる"></div>
-                <h2>せいかい！</h2>
-                <button id="next-button">つぎの もんだいへ</button>
+        <a href="shopping/index.html" class="menu-btn color-green">
+            <div class="icon-container">👛</div>
+            <div class="btn-content">
+                <div class="btn-title">おかいものごっこ</div>
+                <div class="btn-desc">おさいふから コインをだして おかいもの をしよう！</div>
             </div>
-            <!-- Confetti decorations -->
-            <div class="confetti" style="left:10%; top:20%; background:#f4a7bb; animation-delay:0s;"></div>
-            <div class="confetti" style="left:25%; top:10%; background:#ffe9a0; animation-delay:0.2s;"></div>
-            <div class="confetti" style="left:40%; top:15%; background:#c7b8ea; animation-delay:0.4s;"></div>
-            <div class="confetti" style="left:60%; top:12%; background:#a8d8ea; animation-delay:0.3s;"></div>
-            <div class="confetti" style="left:75%; top:18%; background:#ffcab1; animation-delay:0.1s;"></div>
-            <div class="confetti" style="left:85%; top:8%;  background:#f4a7bb; animation-delay:0.5s;"></div>
-            <div class="confetti" style="left:50%; top:5%;  background:#7ecba1; animation-delay:0.6s;"></div>
-        </div>
+        </a>
 
-        <button id="reset-button" class="reset-btn">やりなおす</button>
+        <a href="place-value/index.html" class="menu-btn color-blue">
+            <div class="icon-container">💯</div>
+            <div class="btn-content">
+                <div class="btn-title">おかねの 位取り（くらいどり）</div>
+                <div class="btn-desc">ひゃく・じゅう・いち の おへやで かずの べんきょうを しよう！</div>
+            </div>
+        </a>
+
+        <a href="grid/index.html" class="menu-btn color-orange">
+            <div class="icon-container">📝</div>
+            <div class="btn-content">
+                <div class="btn-title">おかねの ますけいさん</div>
+                <div class="btn-desc">コインの まいすうから ごうけいの きんがくを けいさんしよう！</div>
+            </div>
+        </a>
+
     </div>
 
-    <script src="app.js"></script>
 </body>
 
 </html>
