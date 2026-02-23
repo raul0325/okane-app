@@ -718,8 +718,12 @@ h2,
     }
 }
 
-/* ========== Responsive ========== */
-@media (max-width: 600px) {
+/* ========== Responsive (タブレット・スマホ) ========== */
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+    }
+
     .app-container {
         padding: 16px;
     }
@@ -759,7 +763,7 @@ h2,
         font-size: 1rem;
     }
 
-    /* スマホ: サイドバーを上部の横並びコンパクトボタンに変える */
+    /* サイドバーを上部の横並びコンパクトボタンに */
     .stage-sidebar {
         position: static;
         width: 100%;
@@ -796,18 +800,17 @@ h2,
         display: none;
     }
 
-    body {
-        flex-direction: column;
-    }
-
-    /* スマホ: おさいふを下（手前）にする */
+    /* おさいふを下（手前）、トレイを上にする */
     .main-content {
-        flex-direction: column-reverse;
+        display: flex !important;
+        flex-direction: column-reverse !important;
+        flex-wrap: nowrap !important;
     }
 
     .wallet-area,
     .tray-area {
         min-width: unset;
+        width: 100%;
     }
 
     .coin-container,
