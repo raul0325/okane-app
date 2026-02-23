@@ -148,11 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (var i = 0; i < count; i++) {
                     group.appendChild(createCoinElement(value));
                 }
-                // バッジ
-                var badge = document.createElement('span');
-                badge.classList.add('coin-group-badge');
-                badge.textContent = '×' + count;
-                group.appendChild(badge);
                 walletContainer.appendChild(group);
             }
         });

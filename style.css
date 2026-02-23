@@ -451,6 +451,11 @@ h2,
     font-size: 2.6rem;
 }
 
+/* Bottom bar (合計 + はらうボタン) */
+.bottom-bar {
+    margin-top: 16px;
+}
+
 /* Reset Button */
 .reset-btn {
     margin-top: 20px;
@@ -800,11 +805,12 @@ h2,
         display: none;
     }
 
-    /* おさいふを下（手前）、トレイを上にする */
+    /* おさいふを下、トレイを上（くっつける） */
     .main-content {
         display: flex !important;
         flex-direction: column-reverse !important;
         flex-wrap: nowrap !important;
+        gap: 0 !important;
     }
 
     .wallet-area,
@@ -825,6 +831,29 @@ h2,
         position: sticky;
         top: 0;
         z-index: 50;
-        margin-bottom: 10px;
+        margin-bottom: 6px;
+    }
+
+    /* 合計+はらうを一番下に固定 */
+    .bottom-bar {
+        position: sticky;
+        bottom: 0;
+        z-index: 50;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.9));
+        padding: 8px 0 4px;
+        margin-top: 8px;
+    }
+
+    .total-display {
+        margin-top: 0;
+        flex-direction: row;
+        gap: 8px;
+        padding: 8px 12px;
+    }
+
+    .pay-btn {
+        margin-top: 6px;
+        padding: 12px 0;
+        font-size: 1.3rem;
     }
 }
