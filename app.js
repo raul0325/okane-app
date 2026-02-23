@@ -136,20 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         denominations.forEach(function (value) {
             var count = counts[value];
-            // 3枚以下なら個別表示、4枚以上ならグループ（束）表示
-            if (count <= 3) {
-                for (var i = 0; i < count; i++) {
-                    walletContainer.appendChild(createCoinElement(value));
-                }
-            } else {
-                // グループ表示: 全コインを重ねて見せ、バッジで枚数表示
-                var group = document.createElement('div');
-                group.classList.add('coin-group');
-                for (var i = 0; i < count; i++) {
-                    group.appendChild(createCoinElement(value));
-                }
-                walletContainer.appendChild(group);
+            // 金種ごとに1行（coin-row）にまとめる
+            var row = document.createElement('div');
+            row.classList.add('coin-row');
+            for (var i = 0; i < count; i++) {
+                row.appendChild(createCoinElement(value));
             }
+            walletContainer.appendChild(row);
         });
     }
 

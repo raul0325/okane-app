@@ -232,11 +232,20 @@ h2,
     background-color: rgba(199, 184, 234, 0.2);
 }
 
-.coin-container,
+.coin-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    padding: 8px 12px;
+}
+
 .tray {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 10px;
     justify-content: center;
     align-items: center;
     align-content: flex-start;
@@ -244,23 +253,24 @@ h2,
     padding: 12px;
 }
 
-/* コインの束（グループ表示） */
-.coin-group {
+/* 金種ごとの行 */
+.coin-row {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 0;
-    position: relative;
-    flex-wrap: wrap;
+    width: 100%;
 }
 
-.coin-group .coin {
-    margin-left: -30px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), inset 0 -2px 4px rgba(0, 0, 0, 0.08);
+.coin-row .coin {
+    margin-left: -20px;
 }
 
-.coin-group .coin:first-child {
+.coin-row .coin:first-child {
     margin-left: 0;
 }
+
+
 
 .coin-group-badge {
     position: absolute;
@@ -878,12 +888,12 @@ h2,
         font-size: 1.2rem;
     }
 
-    /* グループの重なりをさらに深く */
-    .coin-group .coin {
-        margin-left: -38px;
+    /* 行の重なりをさらに深く */
+    .coin-row .coin {
+        margin-left: -30px;
     }
 
-    .coin-group .coin:first-child {
+    .coin-row .coin:first-child {
         margin-left: 0;
     }
 }
